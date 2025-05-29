@@ -1,28 +1,44 @@
-import { useState } from 'react';
-
 interface CardProps {
+  id: number;
   emoji: string;
-  index: number;
+  status: "hidden" | "visible" | "matched";
+  onClick: (id: number) => void;
+  isClickable: boolean;
 }
 
-export function Card({ emoji, index }: CardProps) {
-  const [isFlipped, setIsFlipped] = useState(false);
-
+export function Card({ id, emoji, status, onClick, isClickable }: CardProps) {
   const handleClick = () => {
-    setIsFlipped(true);
+    if (status === "hidden" && isClickable) {
+      onClick(id);
+    }
   };
 
+  // Determine card appearance based on status
+  const cardStyle = {
+    hidden: "bg-gray-300",
+    visible: "bg-white",
+    matched: "bg-white opacity-50"
+  }[status];
+
+  // Determine aria-label based on status
+  const ariaLabel = {
+    hidden: "hidden card",
+    visible: `${emoji} emoji card`,
+    matched: `matched ${emoji} emoji card`
+  }[status];
+
   return (
-    <div 
-      className={`w-16 h-16 md:w-20 md:h-20 rounded-md flex items-center justify-center cursor-pointer transition-all duration-300 ${
-        isFlipped ? 'bg-white' : 'bg-gray-300'
-      }`}
+    <button 
+      className={`w-16 h-16 md:w-20 md:h-20 rounded-md flex items-center justify-center 
+        ${isClickable || status !== "hidden" ? "cursor-pointer" : "cursor-not-allowed"} 
+        transition-all duration-300 ${cardStyle}`}
       onClick={handleClick}
-      data-index={index}
+      aria-label={ariaLabel}
+      disabled={!isClickable && status === "hidden"}
     >
-      {isFlipped ? (
+      {status !== "hidden" && (
         <span className="text-2xl md:text-3xl">{emoji}</span>
-      ) : null}
-    </div>
+      )}
+    </button>
   );
 }
