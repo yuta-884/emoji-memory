@@ -1,9 +1,12 @@
+import type { Difficulty } from './utils/generateDeck';
+
 interface WinModalProps {
   onPlayAgain: () => void;
   time: number;
   moves: number;
   isNewBestTime: boolean;
   isNewBestMoves: boolean;
+  difficulty?: Difficulty;
 }
 
 // Format time as mm:ss
@@ -13,12 +16,12 @@ const formatTime = (seconds: number): string => {
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
-export function WinModal({ onPlayAgain, time, moves, isNewBestTime, isNewBestMoves }: WinModalProps) {
+export function WinModal({ onPlayAgain, time, moves, isNewBestTime, isNewBestMoves, difficulty = 'easy' }: WinModalProps) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-md w-full">
         <h2 className="text-3xl font-bold mb-4">🎉 You Win! 🎉</h2>
-        <p className="mb-6 text-lg">Congratulations! You've matched all the cards!</p>
+        <p className="mb-6 text-lg">Congratulations! You've matched all the cards on {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} difficulty!</p>
         
         <div className="mb-6 space-y-2">
           <div className="flex justify-between items-center px-4 py-2 bg-gray-100 rounded">
