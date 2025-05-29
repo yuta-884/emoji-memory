@@ -15,9 +15,9 @@ export function Card({ id, emoji, status, onClick, isClickable }: CardProps) {
 
   // Determine card appearance based on status
   const cardStyle = {
-    hidden: "bg-gray-300",
-    visible: "bg-white",
-    matched: "bg-white opacity-50"
+    hidden: "bg-gray-300 dark:bg-gray-600",
+    visible: "bg-white dark:bg-gray-700",
+    matched: "bg-white dark:bg-gray-700 opacity-50"
   }[status];
 
   // Determine aria-label based on status

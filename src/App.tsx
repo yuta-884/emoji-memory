@@ -3,6 +3,10 @@ import { Card } from './Card'
 import { WinModal } from './WinModal'
 import { GameStats } from './GameStats'
 import { GameControls } from './GameControls'
+import { ThemeToggle } from './components/ThemeToggle'
+import { ThemeProvider } from './providers/ThemeProvider'
+import { PWAInstallPrompt } from './components/PWAInstallPrompt'
+import { OfflineNotification } from './components/OfflineNotification'
 import { generateDeck, DIFFICULTY_CONFIG, getHighScoreKey } from './utils/generateDeck'
 import type { Difficulty } from './utils/generateDeck'
 import { initSounds, playSound, getSoundEnabledSetting, saveSoundEnabledSetting } from './utils/sound'
@@ -216,59 +220,66 @@ function App() {
   const gridColumns = DIFFICULTY_CONFIG[difficulty].columns;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold mb-4 text-center">Emoji Memory Game</h1>
-      
-      <GameControls 
-        difficulty={difficulty}
-        onDifficultyChange={handleDifficultyChange}
-        soundEnabled={soundEnabled}
-        onSoundToggle={handleSoundToggle}
-      />
-      
-      <GameStats 
-        moves={moveCount} 
-        timer={gameTime} 
-        highScores={highScores[difficulty]} 
-        onRestart={initializeGame} 
-      />
-      
-      <div 
-        className={`grid gap-2 sm:gap-3 mx-auto mt-4 ${
-          difficulty === 'easy' 
-            ? 'grid-cols-4 max-w-xs sm:max-w-md' 
-            : difficulty === 'medium'
-              ? 'grid-cols-6 max-w-sm sm:max-w-lg' 
-              : 'grid-cols-8 max-w-md sm:max-w-xl'
-        }`}
-        style={{ 
-          gridTemplateColumns: `repeat(${gridColumns}, minmax(32px, 1fr))` 
-        }}
-      >
-        {cards.map(card => (
-          <Card 
-            key={card.id} 
-            id={card.id} 
-            emoji={card.emoji} 
-            status={card.status}
-            onClick={handleCardClick} 
-            isClickable={!isProcessing && visibleCards.length < 2} 
-          />
-        ))}
-      </div>
-      
-      {hasWon && (
-        <WinModal 
-          onPlayAgain={initializeGame} 
-          time={gameTime} 
-          moves={moveCount}
-          isNewBestTime={isNewBestTime()} 
-          isNewBestMoves={isNewBestMoves()} 
+    <ThemeProvider>
+      <OfflineNotification />
+      <PWAInstallPrompt />
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-4 transition-colors">
+        <div className="w-full max-w-md mx-auto flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-bold text-center">Emoji Memory Game</h1>
+          <ThemeToggle />
+        </div>
+        
+        <GameControls 
           difficulty={difficulty}
+          onDifficultyChange={handleDifficultyChange}
+          soundEnabled={soundEnabled}
+          onSoundToggle={handleSoundToggle}
         />
-      )}
-    </div>
-  )
+        
+        <GameStats 
+          moves={moveCount} 
+          timer={gameTime} 
+          highScores={highScores[difficulty]} 
+          onRestart={initializeGame} 
+        />
+        
+        <div 
+          className={`grid gap-2 sm:gap-3 mx-auto mt-4 ${
+            difficulty === 'easy' 
+              ? 'grid-cols-4 max-w-xs sm:max-w-md' 
+              : difficulty === 'medium'
+                ? 'grid-cols-6 max-w-sm sm:max-w-lg' 
+                : 'grid-cols-8 max-w-md sm:max-w-xl'
+          }`}
+          style={{ 
+            gridTemplateColumns: `repeat(${gridColumns}, minmax(32px, 1fr))` 
+          }}
+        >
+          {cards.map(card => (
+            <Card 
+              key={card.id} 
+              id={card.id} 
+              emoji={card.emoji} 
+              status={card.status}
+              onClick={handleCardClick} 
+              isClickable={!isProcessing && visibleCards.length < 2} 
+            />
+          ))}
+        </div>
+        
+        {hasWon && (
+          <WinModal 
+            onPlayAgain={initializeGame} 
+            time={gameTime} 
+            moves={moveCount}
+            isNewBestTime={isNewBestTime()} 
+            isNewBestMoves={isNewBestMoves()} 
+            difficulty={difficulty}
+          />
+        )}
+      </div>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
