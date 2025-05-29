@@ -2,10 +2,15 @@
 
 A simple memory card game built with React, TypeScript, Vite, and Tailwind CSS. Match pairs of emoji cards to win!
 
+🎮 **Play Now:** https://yuta-884.github.io/emoji-memory/
+
 ## Features
 
 - 4x4 grid of cards (16 cards total)
 - Cards display random emojis when clicked
+- Match pairs of emojis to win the game
+- Timer and move counter to track your performance
+- High scores saved in localStorage
 - Responsive design that works on all devices
 - Built with modern web technologies
 
@@ -15,6 +20,7 @@ A simple memory card game built with React, TypeScript, Vite, and Tailwind CSS. 
 - TypeScript
 - Vite
 - Tailwind CSS (via CDN)
+- GitHub Pages for deployment
 
 ## Development
 
