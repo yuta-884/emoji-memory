@@ -14,14 +14,14 @@ const formatTime = (seconds: number): string => {
 
 export function GameStats({ moves, timer, highScores, onRestart }: GameStatsProps) {
   return (
-    <div className="w-full max-w-md mx-auto p-4 mb-4 flex items-center justify-between bg-white rounded-lg shadow">
+    <div className="w-full max-w-md mx-auto p-4 mb-4 flex items-center justify-between bg-white dark:bg-gray-700 rounded-lg shadow transition-colors">
       <div className="flex items-center space-x-6">
         <div className="text-center">
-          <div className="text-sm text-gray-500">Time</div>
+          <div className="text-sm text-gray-500 dark:text-gray-300">Time</div>
           <div className="font-mono tabular-nums text-xl">{formatTime(timer)}</div>
         </div>
         <div className="text-center">
-          <div className="text-sm text-gray-500">Moves</div>
+          <div className="text-sm text-gray-500 dark:text-gray-300">Moves</div>
           <div className="font-mono tabular-nums text-xl">{moves}</div>
         </div>
       </div>
@@ -32,7 +32,7 @@ export function GameStats({ moves, timer, highScores, onRestart }: GameStatsProp
           </div>
         )}
       </div>
-      <button onClick={onRestart} className="p-2 rounded-full hover:bg-gray-100" aria-label="Restart game">
+      <button onClick={onRestart} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" aria-label="Restart game">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
